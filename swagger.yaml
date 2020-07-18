@@ -1,0 +1,118 @@
+swagger: "2.0"
+info:
+  description: "This is a demo for concurrent apis."
+  version: "1.0.0"
+  title: "infrrd concurrent apis"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "vbprajith@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost:8012"
+basePath: "/infrrd/v1"
+tags:
+- name: "start"
+  description: "start request"
+- name: "end"
+  description: "end request"
+schemes:
+- "http"
+paths:
+  /start:
+    post:
+      tags:
+      - "start"
+      summary: "Add data to db"
+      description: ""
+      operationId: "start"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Input object that needs to be added to the db"
+        required: true
+        schema:
+          $ref: "#/definitions/InputRequest"
+      responses:
+        "400":
+          description: "Bad Request"
+        "200":
+          description: "Successful operation"
+        "500":
+          description: "Internal error"  
+  /end/input/{id}/request/{reqId}:
+    get:
+      tags:
+      - "end"
+      summary: "Ends operation"
+      operationId: "end"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of payload"
+        required: true
+        type: "string"
+      - name: "reqId"
+        in: "path"
+        description: "request id returned from create api"
+        required: true
+        type: "string"  
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+            additionalProperties:
+              type: "integer"
+              format: "int32"
+        "400":
+          description: "Invalid request"
+        "409":
+          description: "Conflict in request"  
+ 
+  
+definitions:
+  InputRequest:
+    type: "object"
+    properties:
+      payloadId:
+        type: "string"
+      data:
+        type: "string"
+      
+  OutputResponse:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      requestId:
+        type: "string"
+      status:
+        type: "string"
+        enum:
+        - "SUCCESS"
+        - "INVALID"
+        - "PENDING"
+        - "ERROR"
+      message:
+        type: "string"
+      success:
+        type: "boolean"
+      errorGroup:
+        type: "string"
+        enum:
+        - "UPDATE_TXN_ERROR"
+        - "CREATE_TXN_ERROR"
+      subErrorGroup:
+        type: "string"
+        enum:
+        - "DATA_INVALID_ON_SERVER"
+        - "NOT_FOUND_ON_SERVER"
+        - "DATA_ENTRY_ERROR"
+        - "DATA_NOT_MATCH"
