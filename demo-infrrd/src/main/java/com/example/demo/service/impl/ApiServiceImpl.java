@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -19,8 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ApiServiceImpl implements ApiService {
 
-	private static Map<String, InputRequest> map = new HashMap<String, InputRequest>();
-	private static Map<String, InputRequest> inValidMap = new HashMap<String, InputRequest>();
+	private static Hashtable<String, InputRequest> map = new Hashtable<String, InputRequest>();
+	private static Hashtable<String, InputRequest> inValidMap = new Hashtable<String, InputRequest>();
 
 	@Override
 	public OutputResponse start(InputRequest input) {
